@@ -1,0 +1,150 @@
+{
+  "versao": 1,
+  "atualizado_em": "2026-07-25",
+  "colecoes": [
+    {
+      "id": "primeiros_passos",
+      "titulo": "Primeiros Passos",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "o_que_o_programa_faz",
+          "titulo": "O que este programa faz",
+          "corpo": "Este programa recebe os arquivos que a Caixa Econômica Federal envia (ou outros documentos do seu escritório) e transforma eles em arquivos PDF organizados — já separados por empresa e, quando aplicável, por funcionário. Você não precisa mais abrir cada arquivo manualmente e formatar um por um."
+        },
+        {
+          "id": "como_processar_primeiro_arquivo",
+          "titulo": "Como processar seu primeiro arquivo",
+          "corpo": "1. Clique em \"Selecionar Arquivo\" e escolha o arquivo que você recebeu (pode ser um arquivo compactado ou um documento avulso).\n2. O programa mostra o nome do arquivo selecionado.\n3. Clique em \"Processar\".\n4. Pronto — o arquivo aparece na lista \"Concluídos\", com um PDF pronto pra você visualizar ou abrir a pasta onde foi salvo."
+        },
+        {
+          "id": "grupos_da_tela",
+          "titulo": "O que significam os três grupos da tela",
+          "corpo": "- Arquivos Selecionados: os arquivos que você escolheu e ainda não mandou processar.\n- Concluídos: os arquivos que já viraram PDF com sucesso.\n- Erros: os arquivos que o programa não conseguiu processar — cada um mostra o motivo, pra você saber o que corrigir."
+        }
+      ]
+    },
+    {
+      "id": "tipos_de_documento",
+      "titulo": "Tipos de Documento",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "documentos_caixa",
+          "titulo": "Documentos da Caixa Econômica Federal",
+          "corpo": "O programa reconhece automaticamente quatro tipos de arquivo que a Caixa costuma enviar, sem você precisar informar qual é qual:\n- Relação de Dependentes — lista de dependentes de cada funcionário.\n- Extrato para Fins Rescisórios — extrato usado quando um funcionário é desligado.\n- Relatório de Rejeições — mostra guias ou informações que a Caixa recusou, com o motivo.\n- Inconsistências Cadastrais — aponta divergências no cadastro de um funcionário ou empresa.\n\nVocê não escolhe o tipo — o programa lê o conteúdo do arquivo e identifica sozinho qual desses quatro é."
+        },
+        {
+          "id": "documentos_diversos",
+          "titulo": "Documentos Diversos",
+          "corpo": "Nem todo arquivo que você processa é da Caixa. Quando o programa recebe um arquivo que não se encaixa em nenhum dos quatro tipos acima (por exemplo, um ASO ou outro documento do seu escritório), ele processa mesmo assim, só que sem os mesmos campos de conferência automática — ele guarda o conteúdo, gera o PDF e organiza na pasta, mas não confirma dado nenhum contra o que está cadastrado."
+        },
+        {
+          "id": "um_ou_mais_funcionarios",
+          "titulo": "Arquivo com um ou mais funcionários",
+          "corpo": "Alguns arquivos trazem informação de um funcionário só; outros trazem uma lista inteira, de vários funcionários de uma vez (por exemplo, um relatório mensal de toda a empresa). O programa identifica isso sozinho e organiza diferente:\n- Um funcionário: o PDF vai direto pra pasta daquela pessoa.\n- Vários funcionários: o programa separa automaticamente cada um na pasta certa, sem você precisar dividir o arquivo manualmente antes."
+        }
+      ]
+    },
+    {
+      "id": "pasta_de_destino",
+      "titulo": "Pasta de Destino",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "como_o_programa_organiza_pastas",
+          "titulo": "Como o programa organiza as pastas",
+          "corpo": "Cada empresa tem sua própria pasta, nomeada assim: número da empresa – nome da empresa (por exemplo, \"123 - EMPRESA EXEMPLO LTDA\"). Dentro dela, quando o arquivo é de um funcionário só, existe uma subpasta com o nome completo dele, em letras maiúsculas."
+        },
+        {
+          "id": "qual_pasta_escolher",
+          "titulo": "Qual pasta escolher ao processar",
+          "corpo": "- Se o arquivo é de um funcionário só: selecione a pasta da empresa e depois entre na subpasta daquele funcionário.\n- Se o arquivo tem vários funcionários: selecione só a pasta da empresa — o programa cria as subpastas de cada funcionário sozinho, você não precisa fazer isso na mão."
+        }
+      ]
+    },
+    {
+      "id": "indicadores_e_selos",
+      "titulo": "Indicadores e Selos de Conferência",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "bolinhas_verdes_vermelhas",
+          "titulo": "As bolinhas verdes e vermelhas",
+          "corpo": "Do lado de cada arquivo processado, uma bolinha colorida mostra o resultado: verde significa que deu tudo certo; vermelha significa que houve algum erro no processamento daquele arquivo específico."
+        },
+        {
+          "id": "selos_conf_div_aten_na",
+          "titulo": "Os selos CONF, DIV, ATEN e N/A",
+          "corpo": "Em documentos da Caixa, o programa confere alguns dados automaticamente (como CPF e número de inscrição da empresa) contra o que já está cadastrado, e mostra um selo pra cada campo conferido:\n- CONF (verde) — o dado bate certinho com o que já estava cadastrado.\n- DIV (vermelho) — o dado é diferente do que estava cadastrado — vale a pena olhar com atenção.\n- ATEN (amarelo) — precisa de uma olhada, mas não é necessariamente um erro.\n- N/A (cinza) — esse campo não se aplica a este documento."
+        },
+        {
+          "id": "de_onde_veio_o_arquivo",
+          "titulo": "De onde veio o arquivo",
+          "corpo": "Cada arquivo processado mostra uma etiqueta indicando se ele é um documento da Caixa ou um Documento Diverso — assim você identifica rápido, sem abrir o PDF."
+        }
+      ]
+    },
+    {
+      "id": "temas_e_personalizacao",
+      "titulo": "Temas e Personalização",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "como_trocar_o_visual",
+          "titulo": "Como trocar o visual da tela",
+          "corpo": "No canto superior direito, o menu com o nome do tema atual permite escolher entre três opções: Padrão (visual claro), Fonte Maior (mesmo visual, com letras maiores) e Nightdark (visual escuro, mais confortável em ambientes com pouca luz)."
+        },
+        {
+          "id": "escolha_fica_salva",
+          "titulo": "Sua escolha fica salva",
+          "corpo": "Depois que você escolhe um tema, o programa lembra da sua preferência — não precisa escolher de novo toda vez que abrir."
+        }
+      ]
+    },
+    {
+      "id": "mensagens_de_alerta",
+      "titulo": "Mensagens de Alerta (o que fazer)",
+      "contextos": ["completo"],
+      "artigos": [
+        {
+          "id": "pasta_fora_do_padrao",
+          "titulo": "\"Pasta fora do padrão\"",
+          "corpo": "O programa espera que você entre na pasta certa antes de confirmar. Se aparecer esse aviso, volte e entre na pasta da empresa (ou, se já estiver nela, entre também na subpasta do funcionário) antes de selecionar."
+        },
+        {
+          "id": "falta_pasta_funcionario",
+          "titulo": "\"Falta selecionar a pasta do funcionário\"",
+          "corpo": "Você selecionou a pasta da empresa, mas esse arquivo é de um funcionário só — falta entrar na subpasta daquela pessoa e selecionar ela."
+        },
+        {
+          "id": "nome_pasta_funcionario_invalido",
+          "titulo": "\"Nome da pasta do funcionário fora do padrão\"",
+          "corpo": "O nome da pasta do funcionário precisa estar em letras maiúsculas e ter nome e sobrenome completos. Corrija o nome da pasta e selecione de novo."
+        },
+        {
+          "id": "pasta_funcionario_desnecessaria",
+          "titulo": "\"Não é necessário selecionar a pasta do funcionário\"",
+          "corpo": "Esse arquivo tem vários funcionários — não precisa (nem deve) entrar na subpasta de ninguém. Selecione só a pasta da empresa."
+        }
+      ]
+    },
+    {
+      "id": "sua_conta",
+      "titulo": "Sua Conta",
+      "contextos": ["completo", "login"],
+      "artigos": [
+        {
+          "id": "como_criar_seu_usuario",
+          "titulo": "Como criar seu usuário",
+          "corpo": "Na tela inicial, clique em \"Criar Usuário\" e preencha:\n- Código — um número que você escolhe, usado depois para entrar no sistema.\n- Nome completo\n- CPF (somente números) — importante: é ele que permite recuperar sua senha depois, caso esqueça. Sem CPF cadastrado, não é possível redefinir a senha sozinho.\n- Senha\n\nDepois de criado, use o código e a senha para entrar."
+        },
+        {
+          "id": "esqueci_minha_senha",
+          "titulo": "Esqueci minha senha",
+          "corpo": "Clique em \"Esqueci minha senha\" na tela inicial e informe:\n- Seu código\n- Seu CPF (o mesmo que você cadastrou na criação do usuário)\n- Uma nova senha\n\nSe o CPF não bater com o que está cadastrado, o sistema não permite a troca — isso é uma proteção, para que só você (ou quem sabe seu CPF) possa trocar sua senha. Se você nunca cadastrou CPF, procure quem administra o sistema para redefinir sua senha manualmente."
+        }
+      ]
+    }
+  ]
+}
