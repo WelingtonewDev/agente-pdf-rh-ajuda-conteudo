@@ -137,7 +137,16 @@
         {
           "id": "como_criar_seu_usuario",
           "titulo": "Como criar seu usuário",
-          "corpo": "Na tela inicial, clique em \"Criar Usuário\" e preencha:\n- Código — um número que você escolhe, usado depois para entrar no sistema.\n- Nome completo\n- CPF (somente números) — importante: é ele que permite recuperar sua senha depois, caso esqueça. Sem CPF cadastrado, não é possível redefinir a senha sozinho.\n- Senha\n\nDepois de criado, use o código e a senha para entrar."
+          "corpo": "Na tela inicial, clique em \"Criar Usuário\" e preencha:\n- Código — um número que você escolhe, usado depois para entrar no sistema.\n- Nome completo\n- CPF (somente números) — importante: é ele que permite recuperar sua senha depois, caso esqueça. Sem CPF cadastrado, não é possível redefinir a senha sozinho.\n- Senha\n\nDepois de criado, use o código e a senha para entrar.",
+          "subtitulo": "Siga os passos abaixo para criar seu acesso ao sistema de forma rápida e segura.",
+          "passos": [
+            { "numero": 1, "titulo": "Código", "descricao": "Um número que você escolhe, usado depois para entrar no sistema.", "icone": "SELL_OUTLINED" },
+            { "numero": 2, "titulo": "Nome completo", "descricao": "", "icone": "PERSON_OUTLINE" },
+            { "numero": 3, "titulo": "CPF (somente números)", "descricao": "Importante: é ele que permite recuperar sua senha depois, caso esqueça. Sem CPF cadastrado, não é possível redefinir a senha sozinho.", "icone": "BADGE_OUTLINED" },
+            { "numero": 4, "titulo": "Senha", "descricao": "Escolha uma senha segura para proteger seu acesso.", "icone": "LOCK_OUTLINE" }
+          ],
+          "conclusao": { "titulo": "Depois de criado", "descricao": "Use o código e a senha para entrar no sistema." },
+          "dica": { "titulo": "Dica de segurança", "descricao": "Guarde seus dados de acesso em um local seguro e não compartilhe sua senha." }
         },
         {
           "id": "esqueci_minha_senha",
