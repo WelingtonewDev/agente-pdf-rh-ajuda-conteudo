@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "atualizado_em": "2026-07-25",
+  "atualizado_em": "2026-07-29",
   "colecoes": [
     {
       "id": "primeiros_passos",
@@ -97,10 +97,16 @@
           "imagem": "C04_02_Selos_CONF_DIV_ATEN_NA.png"
         },
         {
+          "id": "resultado_conferencia_por_documento",
+          "titulo": "Resultado da conferência por documento",
+          "corpo": "Cada documento processado recebe um resumo da conferência, mostrando quantos selos de cada tipo foram aplicados: CONF (dados que conferem com o cadastro), DIV (dados divergentes do cadastro), ATEN (dados que requerem conferência manual), N/A (dados que não se aplicam ao documento). Use esse resumo para priorizar a conferência dos documentos com mais DIV e ATEN — ele ajuda a identificar rápido onde olhar primeiro, mas não substitui a leitura e validação do conteúdo do documento. A responsabilidade final da conferência é sempre sua.",
+          "imagem": "C04_03_Resultado_da_conferencia_por_documento.png"
+        },
+        {
           "id": "de_onde_veio_o_arquivo",
           "titulo": "De onde veio o arquivo",
           "corpo": "Cada arquivo processado mostra uma etiqueta indicando se ele é um documento da Caixa ou um Documento Diverso — assim você identifica rápido, sem abrir o PDF.",
-          "imagem": "C04_03_De_Onde_Veio_o_Arquivo.png"
+          "imagem": "C04_04_De_Onde_Veio_o_Arquivo.png"
         }
       ]
     },
