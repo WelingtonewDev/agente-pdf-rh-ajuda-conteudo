@@ -1,0 +1,7 @@
+{
+  "versao_atual": "1.0.2",
+  "publicado_em": "2026-08-05",
+  "url_download": "https://exemplo.com/instalador/AgentePDFRH-1.0.2-setup.exe",
+  "obrigatoria": false,
+  "changelog": "Corrige bug critico de login e adiciona card de versao."
+}
