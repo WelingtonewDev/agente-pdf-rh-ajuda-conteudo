@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atualizacao SOPC</title>
+<style>
+  :root {
+    --navy: #031B34;
+    --navy-hover: #021121;
+    --dourado: #F3C350;
+    --dourado-escuro: #B98630;
+    --branco: #FCFCFC;
+    --cinza-texto: #5C6672;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--navy);
+    color: var(--branco);
+    line-height: 1.6;
+  }
+  .container { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem; }
+  h1 { font-size: 1.8rem; font-weight: 600; margin: 0 0 0.5rem; }
+  .versao { color: var(--dourado); font-weight: 600; }
+  .publicado { color: var(--cinza-texto); font-size: 0.9rem; margin: 0 0 2rem; }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .card h2 { font-size: 1.1rem; margin: 0 0 1rem; color: var(--branco); }
+  ul.topicos { margin: 0; padding-left: 1.2rem; }
+  ul.topicos li { margin-bottom: 0.5rem; color: rgba(252,252,252,0.85); }
+  .seguranca { font-size: 0.9rem; color: var(--cinza-texto); }
+  .btn-download {
+    display: inline-block;
+    background: var(--dourado);
+    color: var(--navy);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    transition: background 0.15s;
+  }
+  .btn-download:hover { background: var(--dourado-escuro); }
+  .btn-wrap { text-align: center; margin: 2rem 0; }
+  ol.passos { padding-left: 1.2rem; }
+  ol.passos li { margin-bottom: 0.75rem; color: rgba(252,252,252,0.85); }
+  .rodape { text-align: center; color: var(--cinza-texto); font-size: 0.85rem; margin-top: 2rem; }
+  .estado-erro { display: none; text-align: center; padding: 2rem; color: var(--cinza-texto); }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="conteudo-principal">
+    <h1>Atualizacao disponivel</h1>
+    <p class="publicado" id="info-versao">Carregando informacoes...</p>
+
+    <div class="card" id="card-topicos" style="display:none;">
+      <h2>O que mudou nesta versao</h2>
+      <ul class="topicos" id="lista-topicos"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Seguranca</h2>
+      <p class="seguranca">Este instalador vem diretamente do canal oficial de distribuicao do SOPC. Nao compartilhe nem baixe versoes de outras fontes.</p>
+    </div>
+
+    <div class="btn-wrap">
+      <a href="#" class="btn-download" id="btn-download" style="display:none;">Baixar atualizacao</a>
+    </div>
+
+    <div class="card">
+      <h2>Como instalar</h2>
+      <ol class="passos">
+        <li>Clique em "Baixar atualizacao" acima.</li>
+        <li>Execute o arquivo baixado (.exe).</li>
+        <li>Siga as instrucoes do instalador ate o final.</li>
+        <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra novamente ao terminar.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="estado-erro" id="estado-erro">
+    <p>Nao foi possivel carregar as informacoes da atualizacao agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
+  </div>
+
+  <p class="rodape">SOPC - Sistema de Otimizacao de Processos Contabeis</p>
+</div>
+
+<script>
+fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/main/versions.json")
+  .then(function(resp) { return resp.json(); })
+  .then(function(dados) {
+    var versao = dados.versao_atual || "";
+    var publicadoEm = dados.publicado_em || "";
+    var topicos = Array.isArray(dados.topicos) ? dados.topicos : [];
+    var urlDownload = dados.url_download || "";
+
+    var infoVersao = document.getElementById("info-versao");
+    if (versao) {
+      var dataFormatada = "";
+      try {
+        var d = new Date(publicadoEm);
+        dataFormatada = " - publicada em " + d.toLocaleDateString("pt-BR");
+      } catch (e) {}
+      infoVersao.innerHTML = "Versao <span class=\"versao\">" + versao + "</span>" + dataFormatada;
+    } else {
+      infoVersao.textContent = "Nao ha informacoes de versao no momento.";
+    }
+
+    if (topicos.length > 0) {
+      var lista = document.getElementById("lista-topicos");
+      topicos.forEach(function(topico) {
+        var li = document.createElement("li");
+        li.textContent = topico;
+        lista.appendChild(li);
+      });
+      document.getElementById("card-topicos").style.display = "block";
+    }
+
+    var botao = document.getElementById("btn-download");
+    if (urlDownload) {
+      botao.href = urlDownload;
+      botao.style.display = "inline-block";
+    }
+  })
+  .catch(function() {
+    document.getElementById("conteudo-principal").style.display = "none";
+    document.getElementById("estado-erro").style.display = "block";
+  });
+</script>
+</body>
+</html>

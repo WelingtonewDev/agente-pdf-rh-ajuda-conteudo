@@ -1,7 +1,9 @@
 {
   "versao_atual": "1.0.2",
-  "publicado_em": "2026-08-05",
-  "url_download": "https://exemplo.com/instalador/AgentePDFRH-1.0.2-setup.exe",
-  "obrigatoria": false,
-  "changelog": "Corrige bug critico de login e adiciona card de versao."
+  "publicado_em": "2026-08-05T00:00:00+00:00",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.0.0-teste/SOPConvert_Instalador_v1.0.0.exe",
+  "topicos": [
+    "[TESTE] Validacao do fluxo completo de atualizacao",
+    "Corrige bug critico de login e adiciona card de versao"
+  ]
 }
