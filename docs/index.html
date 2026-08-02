@@ -4,79 +4,154 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atualizacao SOPC</title>
+<script>
+  (function () {
+    var salvo = localStorage.getItem("sopc-tema");
+    var tema = salvo || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-tema", tema);
+  })();
+</script>
 <style>
   :root {
     --navy: #031B34;
-    --navy-hover: #021121;
     --dourado: #F3C350;
     --dourado-escuro: #B98630;
-    --branco: #FCFCFC;
-    --cinza-texto: #5C6672;
+    --raio: 14px;
+  }
+  html[data-tema="light"] {
+    --bg: #FAFAF9;
+    --bg-elevado: #FFFFFF;
+    --borda: rgba(3,27,52,0.08);
+    --texto: #10161F;
+    --texto-suave: #5C6672;
+    --sombra: 0 1px 2px rgba(3,27,52,0.04), 0 8px 24px rgba(3,27,52,0.06);
+  }
+  html[data-tema="dark"] {
+    --bg: #0B1420;
+    --bg-elevado: #121D2C;
+    --borda: rgba(255,255,255,0.08);
+    --texto: #F4F6F8;
+    --texto-suave: #8B96A5;
+    --sombra: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.35);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--navy);
-    color: var(--branco);
+    background: var(--bg);
+    color: var(--texto);
     line-height: 1.6;
+    transition: background 0.2s ease, color 0.2s ease;
   }
-  .container { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem; }
-  h1 { font-size: 1.8rem; font-weight: 600; margin: 0 0 0.5rem; }
-  .versao { color: var(--dourado); font-weight: 600; }
-  .publicado { color: var(--cinza-texto); font-size: 0.9rem; margin: 0 0 2rem; }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 1.5rem 1.5rem 0;
+  }
+  .marca { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 1.05rem; }
+  .marca img { height: 30px; width: auto; display: block; }
+  .rodape a {
+    color: var(--texto-suave); text-decoration: none; border-bottom: 1px dotted var(--borda);
+  }
+  .rodape a:hover { color: var(--dourado-escuro); }
+  html[data-tema="dark"] .rodape a:hover { color: var(--dourado); }
+  .rodape .linha-copyright { display: inline-block; margin-top: 0.35rem; }
+  .toggle-tema {
+    display: flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 10px;
+    border: 1px solid var(--borda); background: var(--bg-elevado);
+    cursor: pointer; color: var(--texto-suave);
+  }
+  .toggle-tema:hover { color: var(--dourado); border-color: var(--dourado); }
+  .toggle-tema svg { width: 18px; height: 18px; }
+  .container { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem 2rem; }
+  .selo {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--dourado-escuro); background: rgba(243,195,80,0.12);
+    padding: 0.3rem 0.7rem; border-radius: 999px; margin-bottom: 1rem;
+  }
+  html[data-tema="dark"] .selo { color: var(--dourado); }
+  h1 { font-size: 1.9rem; font-weight: 700; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
+  .versao { color: var(--dourado-escuro); font-weight: 700; }
+  html[data-tema="dark"] .versao { color: var(--dourado); }
+  .publicado { color: var(--texto-suave); font-size: 0.92rem; margin: 0 0 2rem; }
   .card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
+    background: var(--bg-elevado);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
     padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--sombra);
+    opacity: 0; transform: translateY(8px);
+    animation: entrar 0.45s ease forwards;
   }
-  .card h2 { font-size: 1.1rem; margin: 0 0 1rem; color: var(--branco); }
-  ul.topicos { margin: 0; padding-left: 1.2rem; }
-  ul.topicos li { margin-bottom: 0.5rem; color: rgba(252,252,252,0.85); }
-  .seguranca { font-size: 0.9rem; color: var(--cinza-texto); }
+  .card:nth-of-type(2) { animation-delay: 0.08s; }
+  .card:nth-of-type(3) { animation-delay: 0.16s; }
+  @keyframes entrar { to { opacity: 1; transform: translateY(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .card { animation: none; opacity: 1; transform: none; }
+  }
+  .card h2 {
+    font-size: 0.95rem; margin: 0 0 1rem; font-weight: 700;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .card h2 svg { width: 18px; height: 18px; color: var(--dourado-escuro); flex-shrink: 0; }
+  html[data-tema="dark"] .card h2 svg { color: var(--dourado); }
+  ul.topicos, ol.passos { margin: 0; padding-left: 1.2rem; }
+  ul.topicos li, ol.passos li { margin-bottom: 0.5rem; color: var(--texto); opacity: 0.85; }
+  .seguranca { font-size: 0.9rem; color: var(--texto-suave); margin: 0; }
   .btn-download {
-    display: inline-block;
-    background: var(--dourado);
-    color: var(--navy);
-    font-weight: 600;
-    text-decoration: none;
-    padding: 0.9rem 2rem;
-    border-radius: 8px;
-    font-size: 1.05rem;
-    transition: background 0.15s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--dourado); color: var(--navy);
+    font-weight: 700; text-decoration: none;
+    padding: 0.9rem 2rem; border-radius: 10px; font-size: 1.02rem;
+    transition: transform 0.12s ease, background 0.15s ease;
+    box-shadow: 0 4px 14px rgba(243,195,80,0.3);
   }
-  .btn-download:hover { background: var(--dourado-escuro); }
+  .btn-download:hover { background: var(--dourado-escuro); transform: translateY(-1px); }
+  .btn-download svg { width: 18px; height: 18px; }
   .btn-wrap { text-align: center; margin: 2rem 0; }
-  ol.passos { padding-left: 1.2rem; }
-  ol.passos li { margin-bottom: 0.75rem; color: rgba(252,252,252,0.85); }
-  .rodape { text-align: center; color: var(--cinza-texto); font-size: 0.85rem; margin-top: 2rem; }
-  .estado-erro { display: none; text-align: center; padding: 2rem; color: var(--cinza-texto); }
+  .rodape {
+    text-align: center; color: var(--texto-suave); font-size: 0.85rem;
+    margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--borda);
+  }
+  .estado-erro { display: none; text-align: center; padding: 3rem 1.5rem; color: var(--texto-suave); }
 </style>
 </head>
 <body>
+<header>
+  <div class="marca"><img src="assets/logo-sopc.png" alt="SOPC"></div>
+  <button class="toggle-tema" id="toggle-tema" aria-label="Alternar tema claro/escuro" type="button">
+    <svg id="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <svg id="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+</header>
+
 <div class="container">
   <div id="conteudo-principal">
+    <span class="selo">Canal oficial de distribuicao</span>
     <h1>Atualizacao disponivel</h1>
     <p class="publicado" id="info-versao">Carregando informacoes...</p>
 
     <div class="card" id="card-topicos" style="display:none;">
-      <h2>O que mudou nesta versao</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versao</h2>
       <ul class="topicos" id="lista-topicos"></ul>
     </div>
 
     <div class="card">
-      <h2>Seguranca</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Seguranca</h2>
       <p class="seguranca">Este instalador vem diretamente do canal oficial de distribuicao do SOPC. Nao compartilhe nem baixe versoes de outras fontes.</p>
     </div>
 
     <div class="btn-wrap">
-      <a href="#" class="btn-download" id="btn-download" style="display:none;">Baixar atualizacao</a>
+      <a href="#" class="btn-download" id="btn-download" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Baixar atualizacao
+      </a>
     </div>
 
     <div class="card">
-      <h2>Como instalar</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Como instalar</h2>
       <ol class="passos">
         <li>Clique em "Baixar atualizacao" acima.</li>
         <li>Execute o arquivo baixado (.exe).</li>
@@ -90,10 +165,31 @@
     <p>Nao foi possivel carregar as informacoes da atualizacao agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
   </div>
 
-  <p class="rodape">SOPC - Sistema de Otimizacao de Processos Contabeis</p>
+  <p class="rodape">
+    SOPC - Sistema de Otimizacao de Processos Contabeis<br>
+    Duvidas? <a href="mailto:contato@sopservices.com.br">contato@sopservices.com.br</a><br>
+    <span class="linha-copyright" id="rodape-copyright"></span>
+  </p>
 </div>
 
 <script>
+document.getElementById("toggle-tema").addEventListener("click", function () {
+  var atual = document.documentElement.getAttribute("data-tema");
+  var novo = atual === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-tema", novo);
+  localStorage.setItem("sopc-tema", novo);
+  document.getElementById("icone-sol").style.display = novo === "dark" ? "block" : "none";
+  document.getElementById("icone-lua").style.display = novo === "dark" ? "none" : "block";
+});
+(function () {
+  var temaInicial = document.documentElement.getAttribute("data-tema");
+  document.getElementById("icone-sol").style.display = temaInicial === "dark" ? "block" : "none";
+  document.getElementById("icone-lua").style.display = temaInicial === "dark" ? "none" : "block";
+})();
+
+document.getElementById("rodape-copyright").textContent =
+  "\u00A9 " + new Date().getFullYear() + " SOP Services";
+
 fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/main/versions.json")
   .then(function(resp) { return resp.json(); })
   .then(function(dados) {
@@ -107,7 +203,9 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
       var dataFormatada = "";
       try {
         var d = new Date(publicadoEm);
-        dataFormatada = " - publicada em " + d.toLocaleDateString("pt-BR");
+        if (!isNaN(d.getTime())) {
+          dataFormatada = " - publicada em " + d.toLocaleDateString("pt-BR");
+        }
       } catch (e) {}
       infoVersao.innerHTML = "Versao <span class=\"versao\">" + versao + "</span>" + dataFormatada;
     } else {
@@ -127,7 +225,7 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
     var botao = document.getElementById("btn-download");
     if (urlDownload) {
       botao.href = urlDownload;
-      botao.style.display = "inline-block";
+      botao.style.display = "inline-flex";
     }
   })
   .catch(function() {
