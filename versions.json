@@ -1,6 +1,9 @@
 {
-  "versao_atual": "1.0.1",
-  "publicado_em": null,
-  "url_download": null,
-  "topicos": []
+  "versao_atual": "9.9.9-teste",
+  "publicado_em": "2026-08-02",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.0.0-teste/SOPConvert_Instalador_v1.0.0.exe",
+  "topicos": [
+    "[TESTE] Validacao final apos correcao - Sessao 22",
+    "Confirma botao, seguranca, passo a passo e data corretos"
+  ]
 }
