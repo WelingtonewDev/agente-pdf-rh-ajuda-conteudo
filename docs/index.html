@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atualizacao SOPC</title>
+<title>Atualização SOPC</title>
 <script>
   (function () {
     var salvo = localStorage.getItem("sopc-tema");
@@ -178,35 +178,35 @@
       <div class="icone-app"><img src="assets/icone-sopc.png" alt=""></div>
       <div class="cabecalho-texto">
         <span class="selo" id="selo-status">Verificando...</span>
-        <h1 id="titulo-principal">Verificando atualizacoes</h1>
-        <p class="publicado" id="info-versao">Carregando informacoes...</p>
+        <h1 id="titulo-principal">Verificando atualizações</h1>
+        <p class="publicado" id="info-versao">Carregando informações...</p>
       </div>
     </div>
 
     <div class="card" id="card-topicos" style="display:none;">
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versao</h2>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versão</h2>
       <ul class="topicos" id="lista-topicos"></ul>
     </div>
 
     <div class="card" data-so-com-atualizacao>
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Seguranca</h2>
-      <p class="seguranca">Este instalador vem diretamente do canal oficial de distribuicao do SOPC. Nao compartilhe nem baixe versoes de outras fontes.</p>
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Segurança</h2>
+      <p class="seguranca">Este instalador é distribuído exclusivamente pelo canal oficial do SOPC. Evite baixar ou compartilhar versões de outras fontes.</p>
     </div>
 
     <div class="btn-wrap" data-so-com-atualizacao>
       <a href="#" class="btn-download" id="btn-download">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Baixar atualizacao
+        Baixar atualização
       </a>
     </div>
 
     <div class="card" data-so-com-atualizacao>
       <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Como instalar</h2>
       <ol class="passos">
-        <li>Clique em "Baixar atualizacao" acima.</li>
+        <li>Clique em "Baixar atualização" acima.</li>
         <li>Execute o arquivo baixado (.exe).</li>
-        <li>Siga as instrucoes do instalador ate o final.</li>
-        <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra novamente ao terminar.</li>
+        <li>Siga as instruções do instalador até a conclusão.</li>
+        <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra-o novamente ao concluir.</li>
       </ol>
     </div>
 
@@ -214,17 +214,17 @@
       <div class="icone-check">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
       </div>
-      <p>Voce ja esta usando a versao mais recente do SOPC. Nao ha nada para instalar no momento.</p>
+      <p>Você já está com a versão mais recente do SOPC instalada. Não há nada pendente no momento.</p>
     </div>
   </div>
 
   <div class="estado-erro" id="estado-erro">
-    <p>Nao foi possivel carregar as informacoes da atualizacao agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
+    <p>Não foi possível carregar as informações de atualização agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
   </div>
 
   <p class="rodape">
-    SOPC - Sistema de Otimizacao de Processos Contabeis<br>
-    Duvidas? <a href="mailto:contato@sopservices.com.br">contato@sopservices.com.br</a><br>
+    SOPC – Sistema de Otimização de Processos Contábeis<br>
+    Dúvidas? <a href="mailto:contato@sopservices.com.br">contato@sopservices.com.br</a><br>
     <span class="linha-copyright" id="rodape-copyright"></span>
   </p>
 </div>
@@ -261,33 +261,36 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
     var infoVersao = document.getElementById("info-versao");
 
     if (temAtualizacao) {
-      titulo.textContent = "Atualizacao disponivel";
-      selo.textContent = "Nova versao disponivel";
+      titulo.textContent = "Atualização disponível";
+      selo.textContent = "Nova versão disponível";
       selo.classList.remove("selo-ok");
     } else {
-      titulo.textContent = "Voce esta atualizado";
-      selo.textContent = "Versao mais recente";
+      titulo.textContent = "Você está atualizado";
+      selo.textContent = "Versão mais recente";
       selo.classList.add("selo-ok");
     }
 
     document.querySelectorAll("[data-so-com-atualizacao]").forEach(function (el) {
-      el.style.display = temAtualizacao ? "" : "none";
+      el.style.display = temAtualizacao ? "block" : "none";
     });
     document.querySelectorAll("[data-so-sem-atualizacao]").forEach(function (el) {
-      el.style.display = temAtualizacao ? "none" : "";
+      el.style.display = temAtualizacao ? "none" : "block";
     });
 
     if (versao) {
       var dataFormatada = "";
       try {
-        var d = new Date(publicadoEm);
+        var partesData = publicadoEm.split("-");
+        var d = partesData.length === 3
+          ? new Date(parseInt(partesData[0], 10), parseInt(partesData[1], 10) - 1, parseInt(partesData[2], 10))
+          : new Date(publicadoEm);
         if (!isNaN(d.getTime())) {
-          dataFormatada = " - publicada em " + d.toLocaleDateString("pt-BR");
+          dataFormatada = " · publicada em " + d.toLocaleDateString("pt-BR");
         }
       } catch (e) {}
-      infoVersao.innerHTML = "Versao <strong>" + versao + "</strong>" + dataFormatada;
+      infoVersao.innerHTML = "Versão <strong>" + versao + "</strong>" + dataFormatada;
     } else {
-      infoVersao.textContent = "Nao ha informacoes de versao no momento.";
+      infoVersao.textContent = "Não há informações de versão no momento.";
     }
 
     if (topicos.length > 0) {
