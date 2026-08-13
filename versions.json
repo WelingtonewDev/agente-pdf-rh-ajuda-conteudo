@@ -1,6 +1,9 @@
 {
-  "versao_atual": "1.0.1",
-  "publicado_em": null,
-  "url_download": null,
-  "topicos": []
+  "versao_atual": "1.2.0",
+  "publicado_em": "2026-08-12",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/V1.2.0/SOPConvert_Instalador_v1.2.0.exe",
+  "topicos": [
+    "Atualizações internas de estrutura, segurança e estabilidade",
+    "Melhorias visuais na tela inicial"
+  ]
 }
