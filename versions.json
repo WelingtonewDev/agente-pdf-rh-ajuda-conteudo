@@ -1,9 +1,9 @@
 {
-  "versao_atual": "1.2.0",
-  "publicado_em": "2026-08-12",
-  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/V1.2.0/SOPConvert_Instalador_v1.2.0.exe",
+  "versao_atual": "1.2.1",
+  "publicado_em": "2026-08-14",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.2.1/SOPConvert_Instalador_v1.2.1.exe",
   "topicos": [
-    "Atualizações internas de estrutura, segurança e estabilidade",
-    "Melhorias visuais na tela inicial"
+    "Melhorias de estabilidade no processo de atualização",
+    "Ajuste visual na tela de Login"
   ]
 }
