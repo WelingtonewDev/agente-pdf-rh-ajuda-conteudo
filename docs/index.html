@@ -238,8 +238,7 @@
   html[data-tema="dark"] .rodape-secao a:hover { color: var(--dourado); }
 
   .estado-erro { display: none; text-align: center; padding: 3rem 1.5rem; color: var(--texto-suave); }
-  [data-so-com-atualizacao] { display: none; }
-  [data-so-sem-atualizacao] { display: none; }
+  [data-estado-mostra] { display: none; }
 
   .coluna-direita { position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
   .card-contextual {
@@ -358,10 +357,10 @@
           </div>
         </div>
 
-        <div class="btn-wrap" data-so-com-atualizacao>
+        <div class="btn-wrap" data-estado-mostra="instalar atualizar">
           <a href="#" class="btn-download" id="btn-download">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-            Baixar atualização
+            <span id="texto-btn-download">Baixar atualização</span>
           </a>
         </div>
 
@@ -370,12 +369,12 @@
           <ul class="topicos" id="lista-topicos"></ul>
         </div>
 
-        <div class="card" data-so-com-atualizacao>
+        <div class="card" data-estado-mostra="instalar atualizar">
           <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Segurança</h2>
           <p class="seguranca">Este instalador é distribuído exclusivamente pelo canal oficial do SOPC. Evite baixar ou compartilhar versões de outras fontes.</p>
         </div>
 
-        <div class="card card-tudo-certo" data-so-sem-atualizacao>
+        <div class="card card-tudo-certo" data-estado-mostra="atualizado">
           <div class="icone-check">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
@@ -388,11 +387,11 @@
       </div>
     </section>
 
-    <section class="secao" id="instalar" data-so-com-atualizacao>
+    <section class="secao" id="instalar" data-estado-mostra="instalar atualizar">
       <h2 class="titulo-secao">Como instalar</h2>
       <div class="card">
         <ol class="passos">
-          <li>Clique em "Baixar atualização" no topo desta página.</li>
+          <li>Clique em <span id="texto-passo-baixar">"Baixar atualização"</span> no topo desta página.</li>
           <li>Execute o arquivo baixado (.exe).</li>
           <li>Siga as instruções do instalador até a conclusão.</li>
           <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra-o novamente ao concluir.</li>
@@ -527,6 +526,31 @@ document.getElementById("rodape-copyright").textContent =
   secoes.forEach(function (s) { if (s) observador.observe(s); });
 })();
 
+function versaoParaTupla(versao) {
+  // Espelha app/services/versao_service.py:_versao_para_tupla - comparacao
+  // por tupla de inteiros, nao string, evita erro tipo "1.0.10" < "1.0.9"
+  // em ordenacao lexicografica pura.
+  if (!versao || typeof versao !== "string") { return null; }
+  var partes = versao.split(".");
+  var tupla = [];
+  for (var i = 0; i < partes.length; i++) {
+    var n = parseInt(partes[i], 10);
+    if (isNaN(n)) { return null; }
+    tupla.push(n);
+  }
+  return tupla.length > 0 ? tupla : null;
+}
+
+function compararTuplas(a, b) {
+  var tamanho = Math.max(a.length, b.length);
+  for (var i = 0; i < tamanho; i++) {
+    var x = a[i] || 0;
+    var y = b[i] || 0;
+    if (x !== y) { return x - y; }
+  }
+  return 0;
+}
+
 fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/main/versions.json")
   .then(function(resp) { return resp.json(); })
   .then(function(dados) {
@@ -534,27 +558,50 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
     var publicadoEm = dados.publicado_em || "";
     var topicos = Array.isArray(dados.topicos) ? dados.topicos : [];
     var urlDownload = dados.url_download || "";
-    var temAtualizacao = !!urlDownload;
+
+    // Estado da pagina: 3 cenarios pelo parametro ?v= que o app desktop
+    // passa com SOPC_VERSAO_ATUAL. Sem o parametro (nunca instalou) ->
+    // "instalar". Com parametro, compara contra versao_atual do JSON
+    // (mesma semantica de versao_service.verificar_e_registrar_atualizacao).
+    var versaoLocalParam = new URLSearchParams(window.location.search).get("v");
+    var tuplaLocal = versaoParaTupla(versaoLocalParam);
+    var tuplaRemota = versaoParaTupla(versao);
+
+    var estado;
+    if (!tuplaLocal) {
+      estado = "instalar";
+    } else if (tuplaRemota && compararTuplas(tuplaRemota, tuplaLocal) > 0) {
+      estado = "atualizar";
+    } else {
+      estado = "atualizado";
+    }
 
     var titulo = document.getElementById("titulo-principal");
     var selo = document.getElementById("selo-status");
     var infoVersao = document.getElementById("info-versao");
+    var textoBotao = document.getElementById("texto-btn-download");
+    var textoPasso = document.getElementById("texto-passo-baixar");
 
-    if (temAtualizacao) {
+    selo.classList.remove("selo-ok");
+    if (estado === "instalar") {
+      titulo.textContent = "Baixe o SOPC";
+      selo.textContent = "Pronto para baixar";
+      if (textoBotao) { textoBotao.textContent = "Baixar"; }
+      if (textoPasso) { textoPasso.textContent = "\"Baixar\""; }
+    } else if (estado === "atualizar") {
       titulo.textContent = "Atualização disponível";
       selo.textContent = "Nova versão disponível";
-      selo.classList.remove("selo-ok");
+      if (textoBotao) { textoBotao.textContent = "Baixar atualização"; }
+      if (textoPasso) { textoPasso.textContent = "\"Baixar atualização\""; }
     } else {
       titulo.textContent = "Você está atualizado";
       selo.textContent = "Versão mais recente";
       selo.classList.add("selo-ok");
     }
 
-    document.querySelectorAll("[data-so-com-atualizacao]").forEach(function (el) {
-      el.style.display = temAtualizacao ? "block" : "none";
-    });
-    document.querySelectorAll("[data-so-sem-atualizacao]").forEach(function (el) {
-      el.style.display = temAtualizacao ? "none" : "block";
+    document.querySelectorAll("[data-estado-mostra]").forEach(function (el) {
+      var estadosAceitos = el.getAttribute("data-estado-mostra").split(" ");
+      el.style.display = estadosAceitos.indexOf(estado) !== -1 ? "block" : "none";
     });
 
     var dataFormatada = "";
@@ -576,7 +623,7 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
     document.getElementById("fato-versao").textContent = versao || "—";
     document.getElementById("fato-data").textContent = dataFormatada || "—";
 
-    if (topicos.length > 0) {
+    if (topicos.length > 0 && estado !== "instalar") {
       var lista = document.getElementById("lista-topicos");
       topicos.forEach(function(topico) {
         var li = document.createElement("li");
