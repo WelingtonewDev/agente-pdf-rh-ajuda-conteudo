@@ -18,6 +18,8 @@
     --dourado: #F3C350;
     --dourado-escuro: #B98630;
     --raio: 14px;
+    --nav-largura: 240px;
+    --direita-largura: 300px;
   }
   html[data-tema="light"] {
     --bg: #FAFAF9;
@@ -26,6 +28,7 @@
     --texto: #10161F;
     --texto-suave: #5C6672;
     --sombra: 0 1px 2px rgba(3,27,52,0.04), 0 8px 24px rgba(3,27,52,0.06);
+    --overlay: rgba(3,27,52,0.35);
   }
   html[data-tema="dark"] {
     --bg: #0B1420;
@@ -34,8 +37,10 @@
     --texto: #F4F6F8;
     --texto-suave: #8B96A5;
     --sombra: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.35);
+    --overlay: rgba(0,0,0,0.55);
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -48,10 +53,11 @@
   .barra-marca {
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-clara) 100%);
     padding: 1.1rem 1.5rem;
+    position: sticky; top: 0; z-index: 40;
   }
   .barra-marca-conteudo {
-    max-width: 760px; margin: 0 auto;
-    display: flex; align-items: center; justify-content: space-between;
+    max-width: 1240px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   }
   .barra-marca-marca { display: flex; align-items: center; gap: 0.65rem; }
   .barra-marca img { height: 38px; width: auto; display: block; border-radius: 8px; }
@@ -59,6 +65,15 @@
     font-size: 1.25rem; font-weight: 800; letter-spacing: 0.03em;
     color: #FFFFFF;
   }
+  .botao-menu {
+    display: none;
+    align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06);
+    cursor: pointer; color: rgba(255,255,255,0.85); margin-right: 0.25rem;
+  }
+  .botao-menu svg { width: 20px; height: 20px; }
+  .barra-marca-acoes { display: flex; align-items: center; gap: 0.5rem; }
   .toggle-tema {
     display: flex; align-items: center; justify-content: center;
     width: 40px; height: 40px; border-radius: 10px;
@@ -68,7 +83,62 @@
   .toggle-tema:hover { color: var(--dourado); border-color: var(--dourado); }
   .toggle-tema svg { width: 18px; height: 18px; }
 
-  .container { max-width: 640px; margin: 0 auto; padding: 2.5rem 1.5rem 2rem; }
+  .layout {
+    max-width: 1240px; margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+    display: grid;
+    grid-template-columns: var(--nav-largura) minmax(0, 1fr) var(--direita-largura);
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  .coluna-nav {
+    position: sticky; top: 5.5rem;
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+  .emblema-marca {
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    background: var(--bg-elevado); border: 1px solid var(--borda); border-radius: var(--raio);
+    padding: 1.25rem 0.5rem; box-shadow: var(--sombra);
+  }
+  .emblema-anel {
+    position: relative; width: 72px; height: 72px;
+  }
+  .emblema-anel img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .emblema-anel .emblema-simbolo {
+    animation: girar-emblema 6s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes girar-emblema { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .emblema-anel .emblema-simbolo { animation: none; }
+  }
+  .emblema-marca span {
+    font-size: 0.78rem; color: var(--texto-suave); text-align: center;
+  }
+  .emblema-marca .emblema-assinatura {
+    font-style: italic; font-weight: 700; font-size: 0.8rem; line-height: 1.4;
+    color: var(--texto); opacity: 0.85;
+  }
+
+  nav.nav-secoes { display: flex; flex-direction: column; gap: 0.2rem; }
+  nav.nav-secoes a {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.6rem 0.75rem; border-radius: 9px;
+    color: var(--texto-suave); text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    border-left: 2px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  nav.nav-secoes a svg { width: 17px; height: 17px; flex-shrink: 0; }
+  nav.nav-secoes a:hover { background: var(--borda); color: var(--texto); }
+  nav.nav-secoes a.ativo {
+    color: var(--dourado-escuro); border-left-color: var(--dourado-escuro);
+    background: rgba(243,195,80,0.08);
+  }
+  html[data-tema="dark"] nav.nav-secoes a.ativo { color: var(--dourado); border-left-color: var(--dourado); }
+
+  .coluna-central { min-width: 0; display: flex; flex-direction: column; gap: 0; }
+  section.secao { scroll-margin-top: 5.5rem; }
 
   .cabecalho-app {
     display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1.75rem;
@@ -87,9 +157,7 @@
     color: var(--dourado-escuro); background: rgba(243,195,80,0.12);
     padding: 0.3rem 0.7rem; border-radius: 999px;
   }
-  .selo.selo-ok {
-    color: #1E8E5A; background: rgba(30,142,90,0.12);
-  }
+  .selo.selo-ok { color: #1E8E5A; background: rgba(30,142,90,0.12); }
   html[data-tema="dark"] .selo { color: var(--dourado); }
   html[data-tema="dark"] .selo.selo-ok { color: #4ADE80; background: rgba(74,222,128,0.12); }
   .publicado { color: var(--texto-suave); font-size: 0.88rem; margin: 0.4rem 0 0; }
@@ -104,8 +172,9 @@
     opacity: 0; transform: translateY(8px);
     animation: entrar 0.45s ease forwards;
   }
-  .card:nth-of-type(2) { animation-delay: 0.08s; }
-  .card:nth-of-type(3) { animation-delay: 0.16s; }
+  .coluna-central .card:nth-of-type(2) { animation-delay: 0.06s; }
+  .coluna-central .card:nth-of-type(3) { animation-delay: 0.12s; }
+  .coluna-central .card:nth-of-type(4) { animation-delay: 0.18s; }
   @keyframes entrar { to { opacity: 1; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) {
     .card { animation: none; opacity: 1; transform: none; }
@@ -116,13 +185,11 @@
   }
   .card h2 svg { width: 18px; height: 18px; color: var(--dourado-escuro); flex-shrink: 0; }
   html[data-tema="dark"] .card h2 svg { color: var(--dourado); }
-  ul.topicos, ol.passos { margin: 0; padding-left: 1.2rem; }
-  ul.topicos li, ol.passos li { margin-bottom: 0.5rem; color: var(--texto); opacity: 0.85; }
+  ul.topicos, ol.passos, ul.requisitos { margin: 0; padding-left: 1.2rem; }
+  ul.topicos li, ol.passos li, ul.requisitos li { margin-bottom: 0.5rem; color: var(--texto); opacity: 0.85; }
   .seguranca { font-size: 0.9rem; color: var(--texto-suave); margin: 0; }
 
-  .card-tudo-certo {
-    text-align: center; padding: 2.5rem 1.5rem;
-  }
+  .card-tudo-certo { text-align: center; padding: 2.5rem 1.5rem; }
   .card-tudo-certo .icone-check {
     width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 1rem;
     display: flex; align-items: center; justify-content: center;
@@ -133,103 +200,298 @@
   .card-tudo-certo p { margin: 0; color: var(--texto-suave); font-size: 0.92rem; }
 
   .btn-download {
-    display: inline-flex; align-items: center; gap: 0.5rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
     background: var(--dourado); color: var(--navy);
     font-weight: 700; text-decoration: none;
-    padding: 0.9rem 2rem; border-radius: 10px; font-size: 1.02rem;
+    padding: 0.6rem 1.35rem; border-radius: 9px; font-size: 0.9rem;
     transition: transform 0.12s ease, background 0.15s ease;
     box-shadow: 0 4px 14px rgba(243,195,80,0.3);
   }
   .btn-download:hover { background: var(--dourado-escuro); transform: translateY(-1px); }
-  .btn-download svg { width: 18px; height: 18px; }
-  .btn-wrap { text-align: center; margin: 2rem 0; }
+  .btn-download svg { width: 15px; height: 15px; }
+  .btn-wrap { text-align: left; margin: 1.5rem 0; }
 
-  .rodape {
-    text-align: center; color: var(--texto-suave); font-size: 0.85rem;
-    margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--borda);
+  .titulo-secao {
+    font-size: 1.1rem; font-weight: 700; margin: 2.5rem 0 1rem;
+    padding-top: 0.25rem;
   }
-  .rodape a { color: var(--texto-suave); text-decoration: none; border-bottom: 1px dotted var(--borda); }
-  .rodape a:hover { color: var(--dourado-escuro); }
-  html[data-tema="dark"] .rodape a:hover { color: var(--dourado); }
-  .rodape .linha-copyright { display: inline-block; margin-top: 0.35rem; }
+  .coluna-central section.secao:first-of-type .titulo-secao { margin-top: 0; }
+
+  .faq-item { margin-bottom: 1.1rem; }
+  .faq-item:last-child { margin-bottom: 0; }
+  .faq-item dt { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.3rem; }
+  .faq-item dd { margin: 0; color: var(--texto-suave); font-size: 0.9rem; }
+  .faq-dica {
+    margin-top: 1.25rem; padding: 0.9rem 1rem; border-radius: 10px;
+    background: rgba(243,195,80,0.08); border: 1px solid rgba(243,195,80,0.25);
+    font-size: 0.85rem; color: var(--texto-suave); display: flex; gap: 0.6rem; align-items: flex-start;
+  }
+  .faq-dica svg { width: 18px; height: 18px; color: var(--dourado-escuro); flex-shrink: 0; margin-top: 0.1rem; }
+  html[data-tema="dark"] .faq-dica svg { color: var(--dourado); }
+
+  .rodape-secao {
+    text-align: center; color: var(--texto-suave); font-size: 0.85rem;
+    margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--borda);
+  }
+  .rodape-secao a { color: var(--texto-suave); text-decoration: none; border-bottom: 1px dotted var(--borda); }
+  .rodape-secao a:hover { color: var(--dourado-escuro); }
+  html[data-tema="dark"] .rodape-secao a:hover { color: var(--dourado); }
 
   .estado-erro { display: none; text-align: center; padding: 3rem 1.5rem; color: var(--texto-suave); }
   [data-so-com-atualizacao] { display: none; }
   [data-so-sem-atualizacao] { display: none; }
+
+  .coluna-direita { position: sticky; top: 5.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .card-contextual {
+    background: var(--bg-elevado); border: 1px solid var(--borda); border-radius: var(--raio);
+    padding: 1.25rem; box-shadow: var(--sombra);
+  }
+  .card-contextual h3 {
+    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--texto-suave); margin: 0 0 0.9rem; font-weight: 700;
+  }
+  .lista-fatos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+  .lista-fatos li { display: flex; justify-content: space-between; gap: 0.75rem; font-size: 0.85rem; }
+  .lista-fatos li span:first-child { color: var(--texto-suave); }
+  .lista-fatos li span:last-child { font-weight: 600; text-align: right; }
+
+  .card-video {
+    position: relative; border-radius: 12px; overflow: hidden;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-clara) 100%);
+    aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.6rem; color: rgba(255,255,255,0.75); text-align: center; padding: 1rem;
+  }
+  .card-video .icone-play {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;
+  }
+  .card-video .icone-play svg { width: 18px; height: 18px; margin-left: 2px; }
+  .card-video p { margin: 0; font-size: 0.78rem; }
+
+  @media (max-width: 1024px) {
+    .layout { grid-template-columns: var(--nav-largura) minmax(0, 1fr); }
+    .coluna-direita { grid-column: 1 / -1; position: static; flex-direction: row; flex-wrap: wrap; }
+    .coluna-direita .card-contextual, .coluna-direita .card-video { flex: 1 1 260px; }
+  }
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; padding-top: 1.5rem; }
+    .botao-menu { display: flex; }
+    .coluna-nav {
+      position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
+      background: var(--bg); border-right: 1px solid var(--borda);
+      padding: 1.25rem; z-index: 60;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      overflow-y: auto;
+    }
+    .coluna-nav.aberta { transform: translateX(0); box-shadow: 0 0 32px rgba(0,0,0,0.25); }
+    .sobreposicao-nav {
+      display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 55;
+    }
+    .sobreposicao-nav.ativa { display: block; }
+    .coluna-direita { flex-direction: column; }
+  }
 </style>
 </head>
 <body>
 <div class="barra-marca">
   <div class="barra-marca-conteudo">
     <div class="barra-marca-marca">
-      <img src="assets/icone-sopc.png" alt="SOPC">
-      <span class="barra-marca-texto">SOPC</span>
+      <button class="botao-menu" id="botao-menu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="coluna-nav">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <img src="assets/icone-sopc.png" alt="SOPC Services">
+      <span class="barra-marca-texto">SOPC Services</span>
     </div>
-    <button class="toggle-tema" id="toggle-tema" aria-label="Alternar tema claro/escuro" type="button">
-      <svg id="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg id="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-    </button>
+    <div class="barra-marca-acoes">
+      <button class="toggle-tema" id="toggle-tema" aria-label="Alternar tema claro/escuro" type="button">
+        <svg id="icone-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg id="icone-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
-<div class="container">
-  <div id="conteudo-principal">
-    <div class="cabecalho-app">
-      <div class="icone-app"><img src="assets/icone-sopc.png" alt=""></div>
-      <div class="cabecalho-texto">
-        <span class="selo" id="selo-status">Verificando...</span>
-        <h1 id="titulo-principal">Verificando atualizações</h1>
-        <p class="publicado" id="info-versao">Carregando informações...</p>
+<div class="sobreposicao-nav" id="sobreposicao-nav"></div>
+
+<div class="layout">
+  <aside class="coluna-nav" id="coluna-nav">
+    <div class="emblema-marca">
+      <div class="emblema-anel">
+        <img src="assets/SOPC_moldura_estatica.webp" alt="" class="emblema-moldura">
+        <img src="assets/SOPC_simbolo_rotativo.webp" alt="" class="emblema-simbolo">
       </div>
+      <span class="emblema-assinatura">Soluções inteligentes. Estratégias que geram prosperidade!</span>
     </div>
-
-    <div class="card" id="card-topicos" style="display:none;">
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versão</h2>
-      <ul class="topicos" id="lista-topicos"></ul>
-    </div>
-
-    <div class="card" data-so-com-atualizacao>
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Segurança</h2>
-      <p class="seguranca">Este instalador é distribuído exclusivamente pelo canal oficial do SOPC. Evite baixar ou compartilhar versões de outras fontes.</p>
-    </div>
-
-    <div class="btn-wrap" data-so-com-atualizacao>
-      <a href="#" class="btn-download" id="btn-download">
+    <nav class="nav-secoes" aria-label="Navegação da página">
+      <a href="#status" data-nav>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        Baixar atualização
+        Atualização
       </a>
-    </div>
+      <a href="#instalar" data-nav>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
+        Como instalar
+      </a>
+      <a href="#requisitos" data-nav>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        Requisitos
+      </a>
+      <a href="#faq" data-nav>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 1 1 4.4 2.6c-.8.5-1.5 1-1.5 2.1"/><path d="M12 17h.01"/></svg>
+        Perguntas frequentes
+      </a>
+      <a href="#contato" data-nav>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M3 8l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+        Contato
+      </a>
+    </nav>
+  </aside>
 
-    <div class="card" data-so-com-atualizacao>
-      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>Como instalar</h2>
-      <ol class="passos">
-        <li>Clique em "Baixar atualização" acima.</li>
-        <li>Execute o arquivo baixado (.exe).</li>
-        <li>Siga as instruções do instalador até a conclusão.</li>
-        <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra-o novamente ao concluir.</li>
-      </ol>
-    </div>
+  <main class="coluna-central">
+    <section class="secao" id="status">
+      <div id="conteudo-principal">
+        <div class="cabecalho-app">
+          <div class="icone-app"><img src="assets/icone-sopc.png" alt=""></div>
+          <div class="cabecalho-texto">
+            <span class="selo" id="selo-status">Verificando...</span>
+            <h1 id="titulo-principal">Verificando atualizações</h1>
+            <p class="publicado" id="info-versao">Carregando informações...</p>
+          </div>
+        </div>
 
-    <div class="card card-tudo-certo" data-so-sem-atualizacao>
-      <div class="icone-check">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        <div class="btn-wrap" data-so-com-atualizacao>
+          <a href="#" class="btn-download" id="btn-download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Baixar atualização
+          </a>
+        </div>
+
+        <div class="card" id="card-topicos" style="display:none;">
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versão</h2>
+          <ul class="topicos" id="lista-topicos"></ul>
+        </div>
+
+        <div class="card" data-so-com-atualizacao>
+          <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Segurança</h2>
+          <p class="seguranca">Este instalador é distribuído exclusivamente pelo canal oficial do SOPC. Evite baixar ou compartilhar versões de outras fontes.</p>
+        </div>
+
+        <div class="card card-tudo-certo" data-so-sem-atualizacao>
+          <div class="icone-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <p>Você já está com a versão mais recente do SOPC instalada. Não há nada pendente no momento.</p>
+        </div>
       </div>
-      <p>Você já está com a versão mais recente do SOPC instalada. Não há nada pendente no momento.</p>
+
+      <div class="estado-erro" id="estado-erro">
+        <p>Não foi possível carregar as informações de atualização agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
+      </div>
+    </section>
+
+    <section class="secao" id="instalar" data-so-com-atualizacao>
+      <h2 class="titulo-secao">Como instalar</h2>
+      <div class="card">
+        <ol class="passos">
+          <li>Clique em "Baixar atualização" no topo desta página.</li>
+          <li>Execute o arquivo baixado (.exe).</li>
+          <li>Siga as instruções do instalador até a conclusão.</li>
+          <li>Se o SOPC estiver aberto, feche-o antes de instalar e abra-o novamente ao concluir.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="secao" id="requisitos">
+      <h2 class="titulo-secao">Requisitos do sistema</h2>
+      <div class="card">
+        <ul class="requisitos">
+          <li>Windows 10 ou Windows 11 (64 bits)</li>
+          <li>Aproximadamente 135 MB de espaço livre em disco</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="secao" id="faq">
+      <h2 class="titulo-secao">Perguntas frequentes</h2>
+      <div class="card">
+        <dl>
+          <div class="faq-item">
+            <dt>Como eu baixo o SOPC?</dt>
+            <dd>Clique no botão "Baixar atualização" no topo desta página. O download começa direto pelo navegador, sem necessidade de cadastro.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Como eu instalo depois de baixar?</dt>
+            <dd>Execute o arquivo .exe baixado e siga o assistente de instalação. Veja o passo a passo completo na seção "Como instalar" acima.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Como eu sei se tem uma atualização disponível?</dt>
+            <dd>O próprio SOPC verifica automaticamente e mostra um aviso quando existe uma versão nova. Esta página também mostra o status em tempo real, no topo.</dd>
+          </div>
+          <div class="faq-item">
+            <dt>Como eu atualizo uma instalação existente?</dt>
+            <dd>Baixe e execute o novo instalador normalmente — ele identifica a instalação anterior e atualiza no mesmo lugar, sem perder seus dados.</dd>
+          </div>
+        </dl>
+        <div class="faq-dica">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <span>Dúvidas sobre como usar o SOPC no dia a dia (processamento de arquivos, conferência, temas e mais)? Dentro do próprio sistema, o menu Ajuda reúne todos os tópicos explicados passo a passo.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="contato">
+      <h2 class="titulo-secao">Contato</h2>
+      <div class="rodape-secao">
+        SOPC – Sistema de Otimização de Processos Contábeis<br>
+        Dúvidas? <a href="mailto:contato@sopservices.com.br">contato@sopservices.com.br</a><br>
+        <span id="rodape-copyright"></span>
+      </div>
+    </section>
+  </main>
+
+  <aside class="coluna-direita">
+    <div class="card-contextual">
+      <h3>Sobre esta versão</h3>
+      <ul class="lista-fatos">
+        <li><span>Versão</span><span id="fato-versao">—</span></li>
+        <li><span>Publicada em</span><span id="fato-data">—</span></li>
+        <li><span>Sistema</span><span>Windows 10/11 (64 bits)</span></li>
+        <li><span>Espaço em disco</span><span>~135 MB</span></li>
+      </ul>
     </div>
-  </div>
-
-  <div class="estado-erro" id="estado-erro">
-    <p>Não foi possível carregar as informações de atualização agora. Tente novamente em instantes ou entre em contato pelo menu Ajuda do sistema.</p>
-  </div>
-
-  <p class="rodape">
-    SOPC – Sistema de Otimização de Processos Contábeis<br>
-    Dúvidas? <a href="mailto:contato@sopservices.com.br">contato@sopservices.com.br</a><br>
-    <span class="linha-copyright" id="rodape-copyright"></span>
-  </p>
+    <div class="card-video">
+      <div class="icone-play">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <p>Vídeo tutorial de instalação em produção — em breve</p>
+    </div>
+  </aside>
 </div>
 
 <script>
+(function () {
+  var botao = document.getElementById("botao-menu");
+  var nav = document.getElementById("coluna-nav");
+  var overlay = document.getElementById("sobreposicao-nav");
+
+  function fechar() {
+    nav.classList.remove("aberta");
+    overlay.classList.remove("ativa");
+    botao.setAttribute("aria-expanded", "false");
+  }
+  function abrir() {
+    nav.classList.add("aberta");
+    overlay.classList.add("ativa");
+    botao.setAttribute("aria-expanded", "true");
+  }
+  botao.addEventListener("click", function () {
+    nav.classList.contains("aberta") ? fechar() : abrir();
+  });
+  overlay.addEventListener("click", fechar);
+  document.querySelectorAll("nav.nav-secoes a").forEach(function (link) {
+    link.addEventListener("click", fechar);
+  });
+})();
+
 document.getElementById("toggle-tema").addEventListener("click", function () {
   var atual = document.documentElement.getAttribute("data-tema");
   var novo = atual === "dark" ? "light" : "dark";
@@ -245,7 +507,25 @@ document.getElementById("toggle-tema").addEventListener("click", function () {
 })();
 
 document.getElementById("rodape-copyright").textContent =
-  "\u00A9 " + new Date().getFullYear() + " SOP Services";
+  "\u00A9 " + new Date().getFullYear() + " SOPC Services";
+
+(function () {
+  var links = document.querySelectorAll("nav.nav-secoes a[data-nav]");
+  var secoes = Array.prototype.map.call(links, function (l) {
+    return document.querySelector(l.getAttribute("href"));
+  });
+  var observador = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (entrada) {
+      if (entrada.isIntersecting) {
+        var alvo = "#" + entrada.target.id;
+        links.forEach(function (l) {
+          l.classList.toggle("ativo", l.getAttribute("href") === alvo);
+        });
+      }
+    });
+  }, { rootMargin: "-30% 0px -60% 0px" });
+  secoes.forEach(function (s) { if (s) observador.observe(s); });
+})();
 
 fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/main/versions.json")
   .then(function(resp) { return resp.json(); })
@@ -277,21 +557,24 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
       el.style.display = temAtualizacao ? "none" : "block";
     });
 
+    var dataFormatada = "";
     if (versao) {
-      var dataFormatada = "";
       try {
         var partesData = publicadoEm.split("-");
         var d = partesData.length === 3
           ? new Date(parseInt(partesData[0], 10), parseInt(partesData[1], 10) - 1, parseInt(partesData[2], 10))
           : new Date(publicadoEm);
         if (!isNaN(d.getTime())) {
-          dataFormatada = " · publicada em " + d.toLocaleDateString("pt-BR");
+          dataFormatada = d.toLocaleDateString("pt-BR");
         }
       } catch (e) {}
-      infoVersao.innerHTML = "Versão <strong>" + versao + "</strong>" + dataFormatada;
+      infoVersao.innerHTML = "Versão <strong>" + versao + "</strong>" + (dataFormatada ? " · publicada em " + dataFormatada : "");
     } else {
       infoVersao.textContent = "Não há informações de versão no momento.";
     }
+
+    document.getElementById("fato-versao").textContent = versao || "—";
+    document.getElementById("fato-data").textContent = dataFormatada || "—";
 
     if (topicos.length > 0) {
       var lista = document.getElementById("lista-topicos");
@@ -303,9 +586,9 @@ fetch("https://raw.githubusercontent.com/WelingtonewDev/agente-pdf-rh-ajuda-cont
       document.getElementById("card-topicos").style.display = "block";
     }
 
-    var botao = document.getElementById("btn-download");
+    var botaoDownload = document.getElementById("btn-download");
     if (urlDownload) {
-      botao.href = urlDownload;
+      botaoDownload.href = urlDownload;
     }
   })
   .catch(function() {
