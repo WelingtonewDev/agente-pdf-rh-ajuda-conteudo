@@ -468,6 +468,37 @@
 
 <script>
 (function () {
+  // Sessao 42 - no mobile (<=768px), o card "Sobre esta versao" +
+  // video (aside.coluna-direita) e movido para dentro do <main>,
+  // logo antes da secao #contato - sem isso, ele cai depois do
+  // rodape (aside e filho direto do grid .layout, sempre por
+  // ultimo na ordem visual em coluna unica). No desktop (>768px)
+  // ele volta ao lugar original (ultimo filho de .layout), que e
+  // onde o grid de 3 colunas espera encontra-lo.
+  var aside = document.querySelector(".coluna-direita");
+  var contato = document.getElementById("contato");
+  var main = document.querySelector(".coluna-central");
+  var layout = document.querySelector(".layout");
+  var mqMobile = window.matchMedia("(max-width: 768px)");
+
+  function reposicionarBlocoVersao() {
+    if (!aside || !contato || !main || !layout) { return; }
+    if (mqMobile.matches) {
+      if (aside.parentElement !== main) {
+        main.insertBefore(aside, contato);
+      }
+    } else {
+      if (aside.parentElement !== layout) {
+        layout.appendChild(aside);
+      }
+    }
+  }
+
+  reposicionarBlocoVersao();
+  mqMobile.addEventListener("change", reposicionarBlocoVersao);
+})();
+
+(function () {
   var botao = document.getElementById("botao-menu");
   var nav = document.getElementById("coluna-nav");
   var overlay = document.getElementById("sobreposicao-nav");
