@@ -287,7 +287,17 @@
       display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 55;
     }
     .sobreposicao-nav.ativa { display: block; }
-    .coluna-direita { flex-direction: column; }
+    .coluna-direita {
+      flex-direction: column; width: 100%; min-width: 0;
+    }
+    .coluna-direita .card-contextual, .coluna-direita .card-video {
+      width: 100%; max-width: 100%; min-width: 0; flex: 1 1 auto; box-sizing: border-box;
+    }
+    .btn-wrap {
+      position: sticky; top: var(--altura-barra-marca, 70px); z-index: 30;
+      background: var(--bg); padding: 0.75rem 0; margin: 0 0 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
   }
 </style>
 </head>
@@ -496,6 +506,17 @@
 
   reposicionarBlocoVersao();
   mqMobile.addEventListener("change", reposicionarBlocoVersao);
+})();
+
+(function () {
+  function definirAlturaBarraMarca() {
+    var barra = document.querySelector(".barra-marca");
+    if (barra) {
+      document.documentElement.style.setProperty("--altura-barra-marca", barra.offsetHeight + "px");
+    }
+  }
+  definirAlturaBarraMarca();
+  window.addEventListener("resize", definirAlturaBarraMarca);
 })();
 
 (function () {
