@@ -367,6 +367,7 @@
           </div>
         </div>
 
+        <div id="btn-wrap-sentinela" style="height:1px;"></div>
         <div class="btn-wrap" data-estado-mostra="instalar atualizar">
           <a href="#" class="btn-download" id="btn-download">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
@@ -530,9 +531,10 @@
   // (rootMargin negativo do tamanho da barra fixa) e so entao aplicar
   // position: fixed via classe. O espacador (#btn-wrap-espaco) evita
   // que o conteudo abaixo pule quando o botao sai do fluxo normal.
+  var sentinela = document.getElementById("btn-wrap-sentinela");
   var btnWrap = document.querySelector(".btn-wrap");
   var espaco = document.getElementById("btn-wrap-espaco");
-  if (!btnWrap || !espaco) { return; }
+  if (!sentinela || !btnWrap || !espaco) { return; }
 
   var mqMobile = window.matchMedia("(max-width: 768px)");
   var observador = null;
@@ -544,12 +546,18 @@
 
   function ativarObservador() {
     if (observador) { return; }
+    // Observa a sentinela (elemento estatico, nunca reposicionado) em
+    // vez do proprio btnWrap - evita loop de retroalimentacao: se o
+    // observador alterasse a posicao do elemento que ele mesmo observa
+    // (btnWrap virando fixed), cada mudanca de posicao dispara nova
+    // entrada de intersecao, que reavalia e desfaz, gerando piscar
+    // continuo na rolagem rapida (achado em teste manual real).
     observador = new IntersectionObserver(
       function (entradas) {
         var entrada = entradas[0];
-        var passouDoTopo = !entrada.isIntersecting && entrada.boundingClientRect.top < 0;
-        if (passouDoTopo) {
-          espaco.style.height = btnWrap.offsetHeight + "px";
+        var altura = btnWrap.offsetHeight;
+        if (!entrada.isIntersecting) {
+          espaco.style.height = altura + "px";
           btnWrap.classList.add("fixo");
         } else {
           btnWrap.classList.remove("fixo");
@@ -558,7 +566,7 @@
       },
       { rootMargin: "-" + alturaBarraPx() + "px 0px 0px 0px", threshold: 0 }
     );
-    observador.observe(btnWrap);
+    observador.observe(sentinela);
   }
 
   function desativarObservador() {
