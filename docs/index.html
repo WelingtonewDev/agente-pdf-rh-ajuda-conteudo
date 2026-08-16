@@ -293,11 +293,11 @@
     .coluna-direita .card-contextual, .coluna-direita .card-video {
       width: 100%; max-width: 100%; min-width: 0; flex: 1 1 auto; box-sizing: border-box;
     }
-    .btn-wrap {
-      position: sticky; top: var(--altura-barra-marca, 70px); z-index: 30;
-      background: var(--bg); padding: 0.75rem 0; margin: 0 0 1.5rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
+  }
+  .btn-wrap.fixo {
+    position: fixed; top: var(--altura-barra-marca, 70px); left: 0; right: 0;
+    margin: 0; padding: 0.75rem 1.5rem; background: var(--bg); z-index: 30;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   }
 </style>
 </head>
@@ -373,6 +373,7 @@
             <span id="texto-btn-download">Baixar atualização</span>
           </a>
         </div>
+        <div class="btn-wrap-espaco" id="btn-wrap-espaco"></div>
 
         <div class="card" id="card-topicos" style="display:none;">
           <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>O que mudou nesta versão</h2>
@@ -517,6 +518,64 @@
   }
   definirAlturaBarraMarca();
   window.addEventListener("resize", definirAlturaBarraMarca);
+})();
+
+(function () {
+  // Sessao 42 - botao "Baixar" flutuante no mobile ao rolar (pedido
+  // explicito do Welington). position: sticky sozinho nao funciona
+  // aqui porque o alcance de fixacao e limitado aos limites do
+  // proprio .btn-wrap (caixa pequena) - assim que a rolagem ultrapassa
+  // essa caixa, o elemento volta ao fluxo normal. Solucao: observar
+  // via IntersectionObserver quando o btn-wrap sairia da area visivel
+  // (rootMargin negativo do tamanho da barra fixa) e so entao aplicar
+  // position: fixed via classe. O espacador (#btn-wrap-espaco) evita
+  // que o conteudo abaixo pule quando o botao sai do fluxo normal.
+  var btnWrap = document.querySelector(".btn-wrap");
+  var espaco = document.getElementById("btn-wrap-espaco");
+  if (!btnWrap || !espaco) { return; }
+
+  var mqMobile = window.matchMedia("(max-width: 768px)");
+  var observador = null;
+
+  function alturaBarraPx() {
+    var valor = getComputedStyle(document.documentElement).getPropertyValue("--altura-barra-marca");
+    return parseInt(valor, 10) || 70;
+  }
+
+  function ativarObservador() {
+    if (observador) { return; }
+    observador = new IntersectionObserver(
+      function (entradas) {
+        var entrada = entradas[0];
+        var passouDoTopo = !entrada.isIntersecting && entrada.boundingClientRect.top < 0;
+        if (passouDoTopo) {
+          espaco.style.height = btnWrap.offsetHeight + "px";
+          btnWrap.classList.add("fixo");
+        } else {
+          btnWrap.classList.remove("fixo");
+          espaco.style.height = "0px";
+        }
+      },
+      { rootMargin: "-" + alturaBarraPx() + "px 0px 0px 0px", threshold: 0 }
+    );
+    observador.observe(btnWrap);
+  }
+
+  function desativarObservador() {
+    if (observador) {
+      observador.disconnect();
+      observador = null;
+    }
+    btnWrap.classList.remove("fixo");
+    espaco.style.height = "0px";
+  }
+
+  function sincronizarObservador() {
+    if (mqMobile.matches) { ativarObservador(); } else { desativarObservador(); }
+  }
+
+  sincronizarObservador();
+  mqMobile.addEventListener("change", sincronizarObservador);
 })();
 
 (function () {
