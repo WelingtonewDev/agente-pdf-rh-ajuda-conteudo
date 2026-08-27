@@ -1,9 +1,9 @@
 {
-  "versao_atual": "1.3.0",
-  "publicado_em": "2026-08-24",
-  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.3.0/SOPConvert_Instalador_v1.3.0.exe",
+  "versao_atual": "1.4.2",
+  "publicado_em": "2026-08-27",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.4.2/SOPConvert_Instalador_v1.4.2.exe",
   "topicos": [
-    "Tela de ativação redesenhada, mais clara e fácil de usar",
-    "Acesso rápido ao suporte, direto pela tela de ativação"
+    "Corrigido: trocar o tema (Padrão/Nightdark) na tela de ativação",
+    "Melhorias internas na verificação de licença"
   ]
 }
