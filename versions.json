@@ -1,9 +1,11 @@
 {
-  "versao_atual": "1.4.2",
-  "publicado_em": "2026-08-27",
-  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.4.2/SOPConvert_Instalador_v1.4.2.exe",
+  "versao_atual": "1.5.0",
+  "publicado_em": "2026-09-24",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.5.0/SOPConvert_Instalador_v1.5.0.exe",
   "topicos": [
-    "Corrigido: trocar o tema (Padrão/Nightdark) na tela de ativação",
-    "Melhorias internas na verificação de licença"
+    "Novo: histórico do último lote processado, com acesso rápido ao que já foi concluído.",
+    "Novo: suporte ao tipo de documento Extrato Analítico, com reconhecimento automático.",
+    "Corrigido: organização de arquivos com múltiplos colaboradores, evitando mistura de dados entre trabalhadores.",
+    "Melhorado: pergunta de pasta de destino para arquivos com um único colaborador."
   ]
 }
