@@ -1,9 +1,14 @@
 {
-  "versao_atual": "1.5.1",
-  "publicado_em": "2026-09-28",
-  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.5.1/SOPConvert_Instalador_v1.5.1.exe",
+  "versao_atual": "1.6.0",
+  "publicado_em": "2026-10-08",
+  "url_download": "https://github.com/WelingtonewDev/agente-pdf-rh-ajuda-conteudo/releases/download/v1.6.0/SOPConvert_Instalador_v1.6.0.exe",
   "topicos": [
-    "Corrigido: erro na geração de PDF do Extrato Analítico e do Extrato para Fins Rescisórios.",
-    "Novo: aviso quando o nome do colaborador identificado no documento não corresponde à pasta de destino selecionada, tolerante a variações de acentuação e preposição (de/da/do)."
+    "Novo: tela de Dashboard com o resumo dos documentos processados, incluindo os que tiveram erro.",
+    "Novo: tela de Processamento reorganizada em abas, com um fluxo mais claro para escolher, processar e conferir os documentos.",
+    "Novo: opções de tema e de tamanho da fonte para deixar a tela mais confortável de ler.",
+    "Novo: melhorias de acessibilidade para facilitar a leitura e o uso do programa.",
+    "Novo: separação dos documentos por conta e por PIS.",
+    "Melhorado: ao instalar uma nova versão, o instalador avisa e fecha o SOP Convert se ele estiver aberto.",
+    "Melhorado: ajustes na central de ajuda."
   ]
 }
